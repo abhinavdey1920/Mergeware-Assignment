@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Dashboard</h2>
+    <p>Welcome, {{ user['email'] }} (Role: {{ user['role'] }})</p>
+
+    {% if user['role'] == 'borrower' %}
+        <p><a href="{{ url_for('request_loan', email=user['email']) }}">Request Loan</a></p>
+        <h3>Past Loans:</h3>
+        <ul>
+            {% for loan in loans %}
+                <li>{{ loan['status'] }}</li>
+            {% endfor %}
+        </ul>
+    {% elif user['role'] == 'lender' %}
+        <p><a href="{{ url_for('confirm_payment', email=user['email']) }}">Confirm Payment</a></p>
+        <h3>Past Payments:</h3>
+        <ul>
+            {% for payment in payments %}
+                <li>{{ payment['status'] }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
